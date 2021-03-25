@@ -1,0 +1,25 @@
+sudo su -
+yum -y install java-1.8*
+JAVA_HOME=`find /usr/lib/jvm/java-1.8*amz*64 | head -n 1`
+PATH=$PATH:$JAVA_HOME
+export PATH
+yum -y install wget
+sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+yum -y install jenkins
+chkconfig jenkins on
+service jenkins start
+yum -y install git
+# setting Gobal tools config for jdk and git, adding github pluggin
+--------------------------
+mkdir /opt/maven
+cd /opt/maven
+wget https://mirrors.estointernet.in/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
+tar -xvzf apache-maven-3.6.3-bin.tar.gz
+
+M2_HOME=/opt/maven/apache-maven-3.6.3
+M2=$M2_HOME/bin
+PATH=$PATH:$M2_HOME:$M2
+
+#setup Maven Integration and Maven Invoker plugin on jenkins
+#configure the Maven path in the global tools in jenkins   M2_HOME  M2_HOME=/opt/maven//opt/maven/apache-maven-3.6.3
